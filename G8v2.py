@@ -13,39 +13,6 @@ abi = [{"inputs":[{"components":[{"internalType":"string","name":"TOKEN_NAME","t
 connect = Web3(Web3.HTTPProvider('https://base-mainnet.infura.io/v3/b85969aaf3834a839de1811356c099a6'))
 
 
-def Alert(hash,token,action):
-        bot_token = '6880639936:AAEAz6H3X8cBOP9pNJWh3zljPrtBsQlX4No'
-        hashLink = f'https://basescan.org/tx/{hash}'
-        tradeInfo = f'TRADE(BASE) NOTIFICATION  \n\n'\
-                    f'CLICK <a href="{hashLink}">HASH </a> TO VIEW TRANSCTION\n\n'\
-                    f'{action}:{token}\n\n'
-                    
-        async def main():
-            try:
-                bot=telegram.Bot(bot_token)
-            except:
-                bot=telegram.Bot(bot_token)
-            async with bot:
-                await bot.send_message(text=tradeInfo,parse_mode=ParseMode.HTML,chat_id=963648721)
-        if __name__=='__main__':
-            asyncio.run(main())
-
-
-def failed_to_trade(token,e,action):
-        bot_token = '6344573464:AAF_dIkl-hJ5aFT_f0IbUMCmwtOhIm41tvc'
-        async def main():
-            try:
-                bot=telegram.Bot(bot_token)
-            except:
-                bot=telegram.Bot(bot_token)
-            async with bot:
-                await bot.send_message(text=f'Failure : {action}\n\n\nnToken: {token}\n\nERROR:{e}',
-                chat_id=963648721)
-        if __name__=='__main__':
-            asyncio.run(main())
-
-
-
 def verifyHash(hash):
         topic = '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef'
         invalidhash = 0
@@ -84,7 +51,7 @@ def tokenList(token):
         TokenFile.write(token+'\n')
 
 
-def buy(token,priv):
+def buy(token,priv,amount):
     contract,account = required(priv,token)
     try:
         transaction = contract.functions.buy(
@@ -92,7 +59,7 @@ def buy(token,priv):
             1*10**18
             ).build_transaction({
                 'from': account.address,
-                'value': connect.to_wei('0.00018','ether'),
+                'value': connect.to_wei(amount,'ether'),
                 'gas':200000,
                 'maxPriorityFeePerGas': connect.to_wei('0.06','gwei'),
                 'maxFeePerGas': connect.to_wei('0.1', 'gwei'),
@@ -105,41 +72,9 @@ def buy(token,priv):
         action = 'Token bought'
         print(hash)
         verifyHash(hash)
-        Alert(hash,token,action)
         tokenList(token)
     except Exception as e:
         print('Error is because of {e}')
-        action = 'Token Buying'
-        failed_to_trade(token,e,action)
-
-def sell(token,priv):
-    contract,account = required(priv,token)
-    try:
-        transaction = contract.functions.sell(
-            account.address,
-            1*10**18
-            ).build_transaction({
-                'from': account.address,
-                #'value': connect.to_wei('0.00018','ether'),
-                'gas':200000,
-                'maxPriorityFeePerGas': connect.to_wei('0.06','gwei'),
-                'maxFeePerGas': connect.to_wei('0.2', 'gwei'),
-                'nonce': connect.eth._get_transaction_count(account.address)
-            })
-
-        sign = connect.eth.account.sign_transaction(transaction,priv)
-        send = connect.eth.send_raw_transaction(sign.raw_transaction)
-        hash = '0x'+send.hex()
-        action = 'Token bought'
-        print(hash)
-        verifyHash(hash)
-        Alert(hash,token,action)
-        tokenList(token)
-    except Exception as e:
-        print('Error is because of {e}')
-        action = 'Token Buying'
-        failed_to_trade(token,e,action)
-
 
 
 
@@ -170,11 +105,8 @@ def sell(priv,token):
         action = 'Token Sold'
         print(hash)
         verifyHash(hash)
-        Alert(hash,token,action)
     except Exception as e:
         print('Error is because of {e}')
-        action = 'Token Selling'
-        failed_to_trade(token,e,action)
 
 
 
@@ -182,20 +114,20 @@ def sell(priv,token):
 
 walletCommand = sys.argv[1]
 token = sys.argv[2]
+
+try:
+   with open('config.json','r') as file:
+       data = json.load(file)
+       amount = float(data['amount'])
+       duration = int(data['time'])
+except:
+    print('No Config File. Please Create One To Use This Features')
+        sys.exit()
+
 if walletCommand == 'first_bot':
     priv = os.environ.get('first_bot')
-    buy(token,priv)
-    time.sleep(600)
-    sell(priv,token)
+    buy(token,priv,amount)
+    if duration > 0:
+            time.sleep(60*duration)
+            sell(priv,token)
     
-elif walletCommand == 'second_bot':
-    priv = os.environ.get('second_bot')
-    buy(token,priv)
-    time.sleep(600)
-    sell(priv,token)
-
-elif walletCommand == 'third_bot':
-    priv = os.environ.get('first_bot')
-    buy(token,priv)
-    time.sleep(600)
-    sell(priv,token)
