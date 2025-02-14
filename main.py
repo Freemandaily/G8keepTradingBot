@@ -12,42 +12,8 @@ import os
 import telegram
 from telegram.constants import ParseMode
 
-print('Update 2')
-
-YOUR_INFURA_API = 'd049a2241d97413da17d774171eb0edb'
 infura_url = 'https://base-mainnet.g.alchemy.com/v2/ETR-eJGF7AD8ejoi5tzGesiS5s4Kq-DF'
 w3 = Web3(Web3.HTTPProvider(infura_url))
-
-# hash = '0x68d2bcbcd5a98b314f5da8a2aca73d4f13eeed537f71f6291e00865707a0fd67'
-# receipt = w3.eth.get_transaction_receipt(hash)
-# logs = receipt.get('logs',[])
-# syncHash = '0x1c411e9a96e071241c2f21f7726b17ae89e3cab4c78be50e062b03a9fffbbad1'
-# #print(logs)
-# for log in logs:
-#     topics = log['topics']
-#     topic0 = topics[0].hex()
-#     if topic0 == syncHash:
-#         data = log['data'].hex()[2:]
-#         pooledETH = int(data[:len(data)//2],16)/10**18
-#         if pooledETH >= 0.1:
-#             print(pooledETH)
-
-
-
-
-def status(status):
-        bot_token = '6344573464:AAF_dIkl-hJ5aFT_f0IbUMCmwtOhIm41tvc'
-        async def main():
-            try:
-                bot=telegram.Bot(bot_token)
-            except:
-                bot=telegram.Bot(bot_token)
-            async with bot:
-                await bot.send_message(text=f'G8Keep Notification\n\nStatus:{status}',
-                chat_id=963648721)
-        if __name__=='__main__':
-            asyncio.run(main())
-
 
 contract_address = Web3.to_checksum_address("0x242531c3aD1D7454CD6e916Fc49e646f59c9429f")
 async def processEvent(token,hash):
@@ -56,12 +22,7 @@ async def processEvent(token,hash):
     value = hashdata['value']
     threshold = 0 #0.0015*10**18
     if value >= threshold:
-        # call trading module
-        subprocess.Popen(['python3','G8v2.py','first_bot',token])
-        #time.sleep(0.1)
-        #subprocess.Popen(['python3','G8.py','second_bot',token])
-        #time.sleep(0.1)
-        #subprocess.Popen(['python3','G8.py','third_bot',token])
+        subprocess.Popen(['python3','G8v2.py','first_bot',token])  # call trading module
 
 
 
@@ -91,8 +52,6 @@ async def get_event():
                 message = await ws.recv()
                 event_data = json.loads(message)
                 await processFilter(event_data)
-                #print(event_data['params']['result']['topics'][1])
-                #print(event_data['params']['result']['transactionHash'])
             except asyncio.exceptions.TimeoutError:
                 continue
             except ValueError as e:
@@ -106,14 +65,12 @@ with open('G8keep.pid','w') as pid_file:
 
 while True:
     status_check = 'Restarting G8keep'
-    status(status_check)
     try:
         if __name__ == "__main__":
             loop = asyncio.new_event_loop()
             loop.run_until_complete(get_event())
     except:
         print('G8keep Going Down')
-        #os.remove('G8keep.pid')
         print('Restarting')
         continue
 
