@@ -10,7 +10,7 @@ The primary purpose of this sniper protection is to prevent a single individual 
 
 ## Bot Functions
 - G8keepTradingBot is able to spot every Token launched through G8keep platform and buy depending on the user specified amount. Once the bot is started , it monitores the blockchain for any G8keep token.
-- You can specify hour many minute You want before selling the token or you might choose not to sell
+- You can specify  minute You want before selling the token or you might choose not to sell
 
 
 ## Configuration
