@@ -20,9 +20,9 @@ The primary purpose of this sniper protection is to prevent a single individual 
   That all
 
 ## Starting
-Enter >> python3 main.py
-Enter amount Of Eth to be used for Every Purchase
-Enter amount of minutes to stay before selling 
+- Enter >> python3 main.py
+- Enter amount Of Eth to be used for Every Purchase
+- Enter amount of minutes to stay before selling 
 
 
 
