@@ -125,7 +125,7 @@ except:
         sys.exit()
 
 if walletCommand == 'first_bot':
-    priv = os.environ.get('first_bot')
+    priv = os.environ.get('priv')
     buy(token,priv,amount)
     if duration > 0:
             time.sleep(60*duration)
