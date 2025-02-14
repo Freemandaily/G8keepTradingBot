@@ -20,7 +20,7 @@ async def processEvent(token,hash):
     hashdata = w3.eth.get_transaction(hash)
     print(hashdata['value'])
     value = hashdata['value']
-    threshold = 0 #0.0015*10**18
+    threshold = 0 # choose threshold of a deployer bought amount
     if value >= threshold:
         subprocess.Popen(['python3','G8v2.py','first_bot',token])  # call trading module
 
@@ -58,10 +58,20 @@ async def get_event():
                 print('this is the issue')
                 print(e)
                 continue
+def config():
+    print('Creating Config file')
+    amount = float(input('Enter amount To Buy With\n'))
+    duration = int(input('Enter Minute To Wait Before Selling Or Enter 0 if You Are Holding\n'))
+    data = {'amount':amount,'time':duration}
+    with open('config.json','w') as file:
+        json.dump(data,file,indent=3)
 
-pid = str(os.getpid())
-with open('G8keep.pid','w') as pid_file:
-    pid_file.write(pid)
+
+try:
+   with open('config.json','r') as file:
+       print('config file Loaded')
+except:
+    config()
 
 while True:
     status_check = 'Restarting G8keep'
