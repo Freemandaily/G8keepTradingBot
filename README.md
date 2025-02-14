@@ -1,5 +1,5 @@
 # G8keepTradingBot
-Be Early in all G8keep token Launched. Trade An Unruggable Token  faster. To Be early is the Edge
+Be Early on all G8keep token Launched. Trade An Unruggable Token  faster. To Be early is the Edge
 
 ## Overview
 G8keep is a launchpad platform specifically designed for launching memecoins. It is currently deployed on two blockchains: Base and Abstract Chain. What sets G8keep apart from other launchpads is its unique mechanism for token launches.  
