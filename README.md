@@ -22,7 +22,9 @@ The primary purpose of this sniper protection is to prevent a single individual 
 ## Starting
 - Enter >> python3 main.py
 - Enter amount Of Eth to be used for Every Purchase
-- Enter amount of minutes to stay before selling 
+- Enter minutes to stay before selling ,Enter 0 (zero) to not sell
+
+N/B: Choosing the amount and time is a one time action,You can  alter the file by editing the config.json file in the directory
 
 
 
