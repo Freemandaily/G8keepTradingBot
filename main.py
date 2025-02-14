@@ -8,9 +8,7 @@ import certifi
 from hexbytes import HexBytes
 import subprocess
 import os
-# import psutil,sys
-import telegram
-from telegram.constants import ParseMode
+
 
 infura_url = 'https://base-mainnet.g.alchemy.com/v2/ETR-eJGF7AD8ejoi5tzGesiS5s4Kq-DF'
 w3 = Web3(Web3.HTTPProvider(infura_url))
