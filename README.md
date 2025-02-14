@@ -14,11 +14,12 @@ The primary purpose of this sniper protection is to prevent a single individual 
 
 
 ## Configuration
+- install the script >> git clone https://github.com/Freemandaily/G8keepTradingBot.git
 - install python
 - install web3 library >> pip innstall web3
 - set you private key in your environment >> export priv='Paste YourPrivateKeyHer'
   That all
-
+  
 ## Starting
 - Enter >> python3 main.py
 - Enter amount Of Eth to be used for Every Purchase
